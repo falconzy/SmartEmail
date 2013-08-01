@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="webzyEmailModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="webzyEmailModelStoreContainer">
+          <EntitySet Name="AttachmentFile" EntityType="webzyEmailModel.Store.AttachmentFile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailLog" EntityType="webzyEmailModel.Store.EmailLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ReceivedEmail" EntityType="webzyEmailModel.Store.ReceivedEmail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ServiceAccount" EntityType="webzyEmailModel.Store.ServiceAccount" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ServiceLog" EntityType="webzyEmailModel.Store.ServiceLog" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Setting" EntityType="webzyEmailModel.Store.Setting" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailReceivedView" EntityType="webzyEmailModel.Store.EmailReceivedView" store:Type="Views" store:Schema="dbo" store:Name="EmailReceivedView">
+            <DefiningQuery>SELECT 
+      [EmailReceivedView].[Id] AS [Id], 
+      [EmailReceivedView].[UID] AS [UID], 
+      [EmailReceivedView].[EmailSentTime] AS [EmailSentTime], 
+      [EmailReceivedView].[FromAddress] AS [FromAddress], 
+      [EmailReceivedView].[ToAddress] AS [ToAddress], 
+      [EmailReceivedView].[CCAddress] AS [CCAddress], 
+      [EmailReceivedView].[Subject] AS [Subject], 
+      [EmailReceivedView].[EmailContent] AS [EmailContent], 
+      [EmailReceivedView].[EmailSeverity] AS [EmailSeverity], 
+      [EmailReceivedView].[AttachedFile] AS [AttachedFile], 
+      [EmailReceivedView].[Readed] AS [Readed], 
+      [EmailReceivedView].[ModifiedBy] AS [ModifiedBy], 
+      [EmailReceivedView].[ModifiedOn] AS [ModifiedOn], 
+      [EmailReceivedView].[IdentityId] AS [IdentityId]
+      FROM [dbo].[EmailReceivedView] AS [EmailReceivedView]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_EmailAttachments_EmailReceived" Association="webzyEmailModel.Store.FK_EmailAttachments_EmailReceived">
+            <End Role="ReceivedEmail" EntitySet="ReceivedEmail" />
+            <End Role="AttachmentFile" EntitySet="AttachmentFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailReceived_EmailSetting" Association="webzyEmailModel.Store.FK_EmailReceived_EmailSetting">
+            <End Role="Setting" EntitySet="Setting" />
+            <End Role="ReceivedEmail" EntitySet="ReceivedEmail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailServiceAccount_EmailSetting" Association="webzyEmailModel.Store.FK_EmailServiceAccount_EmailSetting">
+            <End Role="Setting" EntitySet="Setting" />
+            <End Role="ServiceAccount" EntitySet="ServiceAccount" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AttachmentFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmailReceivedFk" Type="int" />
+          <Property Name="UID" Type="varchar" Nullable="false" MaxLength="5000" />
+          <Property Name="FileName" Type="varchar" MaxLength="500" />
+          <Property Name="FileLocation" Type="varchar" MaxLength="500" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmailLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SenderName" Type="varchar" MaxLength="250" />
+          <Property Name="SenderAddress" Type="varchar" MaxLength="250" />
+          <Property Name="ReceiverName" Type="varchar" MaxLength="250" />
+          <Property Name="ReceiverAddress" Type="varchar" MaxLength="250" />
+          <Property Name="CCAddress" Type="varchar" MaxLength="1000" />
+          <Property Name="Subject" Type="varchar" MaxLength="250" />
+          <Property Name="EmailContent" Type="varchar" />
+          <Property Name="EmailFormat" Type="varchar" MaxLength="10" />
+          <Property Name="EmailSeverity" Type="varchar" MaxLength="50" />
+          <Property Name="EmailSent" Type="bit" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ReceivedEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="varchar" Nullable="false" MaxLength="5000" />
+          <Property Name="EmailSentTime" Type="datetime" Nullable="false" />
+          <Property Name="EmailAccountFk" Type="int" Nullable="false" />
+          <Property Name="FromAddress" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="ToAddress" Type="varchar" MaxLength="500" />
+          <Property Name="CCAddress" Type="varchar" MaxLength="1000" />
+          <Property Name="Subject" Type="varchar" MaxLength="500" />
+          <Property Name="EmailContent" Type="varchar(max)" />
+          <Property Name="EmailFormat" Type="varchar" MaxLength="50" />
+          <Property Name="EmailSeverity" Type="varchar" MaxLength="50" />
+          <Property Name="AttachedFile" Type="bit" Nullable="false" />
+          <Property Name="Readed" Type="bit" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IdentityId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmailSettingFk" Type="int" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="500" />
+          <Property Name="EmailSettingId" Type="int" />
+          <Property Name="ErrorMessage" Type="varchar" Nullable="false" MaxLength="1000" />
+          <Property Name="Action" Type="varchar" MaxLength="100" />
+          <Property Name="ProcessName" Type="varchar" MaxLength="500" />
+          <Property Name="Remarks" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SMTP" Type="varchar" MaxLength="100" />
+          <Property Name="POP3" Type="varchar" MaxLength="100" />
+          <Property Name="IMAP" Type="varchar" MaxLength="100" />
+          <Property Name="SaveToServer" Type="bit" Nullable="false" />
+          <Property Name="POPPort" Type="int" />
+          <Property Name="POPsecurity" Type="bit" />
+          <Property Name="SMTPPort" Type="int" />
+          <Property Name="SMTPsecurity" Type="bit" />
+          <Property Name="IMAPPort" Type="int" />
+          <Property Name="IMAPsecurity" Type="bit" />
+          <Property Name="EmailAddress" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DefaultServer" Type="bit" />
+          <Property Name="TimerCycle" Type="int" />
+          <Property Name="Remarks" Type="varchar" MaxLength="250" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'webzyEmail.dbo.EmailReceivedView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="EmailReceivedView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UID" />
+            <PropertyRef Name="EmailSentTime" />
+            <PropertyRef Name="FromAddress" />
+            <PropertyRef Name="AttachedFile" />
+            <PropertyRef Name="Readed" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="ModifiedOn" />
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UID" Type="varchar" Nullable="false" MaxLength="5000" />
+          <Property Name="EmailSentTime" Type="datetime" Nullable="false" />
+          <Property Name="FromAddress" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="ToAddress" Type="varchar" MaxLength="500" />
+          <Property Name="CCAddress" Type="varchar" MaxLength="1000" />
+          <Property Name="Subject" Type="varchar" MaxLength="500" />
+          <Property Name="EmailContent" Type="varchar(max)" />
+          <Property Name="EmailSeverity" Type="varchar" MaxLength="50" />
+          <Property Name="AttachedFile" Type="bit" Nullable="false" />
+          <Property Name="Readed" Type="bit" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+          <Property Name="IdentityId" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_EmailAttachments_EmailReceived">
+          <End Role="ReceivedEmail" Type="webzyEmailModel.Store.ReceivedEmail" Multiplicity="0..1" />
+          <End Role="AttachmentFile" Type="webzyEmailModel.Store.AttachmentFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceivedEmail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentFile">
+              <PropertyRef Name="EmailReceivedFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailReceived_EmailSetting">
+          <End Role="Setting" Type="webzyEmailModel.Store.Setting" Multiplicity="1" />
+          <End Role="ReceivedEmail" Type="webzyEmailModel.Store.ReceivedEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReceivedEmail">
+              <PropertyRef Name="EmailAccountFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailServiceAccount_EmailSetting">
+          <End Role="Setting" Type="webzyEmailModel.Store.Setting" Multiplicity="1" />
+          <End Role="ServiceAccount" Type="webzyEmailModel.Store.ServiceAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceAccount">
+              <PropertyRef Name="EmailSettingFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="webzyEmailModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="webzyEmailEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmailLogs" EntityType="webzyEmailModel.EmailLog" />
+          <EntitySet Name="ReceivedEmails" EntityType="webzyEmailModel.ReceivedEmail" />
+          <EntitySet Name="ServiceAccounts" EntityType="webzyEmailModel.ServiceAccount" />
+          <EntitySet Name="ServiceLogs" EntityType="webzyEmailModel.ServiceLog" />
+          <EntitySet Name="Settings" EntityType="webzyEmailModel.Setting" />
+          <EntitySet Name="EmailReceivedViews" EntityType="webzyEmailModel.EmailReceivedView" />
+          <AssociationSet Name="FK_EmailReceived_EmailSetting" Association="webzyEmailModel.FK_EmailReceived_EmailSetting">
+            <End Role="Setting" EntitySet="Settings" />
+            <End Role="ReceivedEmail" EntitySet="ReceivedEmails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailServiceAccount_EmailSetting" Association="webzyEmailModel.FK_EmailServiceAccount_EmailSetting">
+            <End Role="Setting" EntitySet="Settings" />
+            <End Role="ServiceAccount" EntitySet="ServiceAccounts" />
+          </AssociationSet>
+          <EntitySet Name="AttachmentFiles" EntityType="webzyEmailModel.AttachmentFile" />
+          <AssociationSet Name="FK_EmailAttachments_EmailReceived" Association="webzyEmailModel.FK_EmailAttachments_EmailReceived">
+            <End Role="ReceivedEmail" EntitySet="ReceivedEmails" />
+            <End Role="AttachmentFile" EntitySet="AttachmentFiles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EmailLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderName" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="SenderAddress" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ReceiverName" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ReceiverAddress" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="CCAddress" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="EmailContent" Type="String" MaxLength="8000" Unicode="false" FixedLength="false" />
+          <Property Name="EmailFormat" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSeverity" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSent" Type="Boolean" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="ReceivedEmail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="String" Nullable="false" MaxLength="5000" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSentTime" Type="DateTime" Nullable="false" />
+          <Property Name="EmailAccountFk" Type="Int32" Nullable="false" />
+          <Property Name="FromAddress" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="ToAddress" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="CCAddress" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="EmailContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="EmailFormat" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSeverity" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="AttachedFile" Type="Boolean" Nullable="false" />
+          <Property Name="Readed" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Setting" Relationship="webzyEmailModel.FK_EmailReceived_EmailSetting" FromRole="ReceivedEmail" ToRole="Setting" />
+          <NavigationProperty Name="AttachmentFiles" Relationship="webzyEmailModel.FK_EmailAttachments_EmailReceived" FromRole="ReceivedEmail" ToRole="AttachmentFile" />
+        </EntityType>
+        <EntityType Name="ServiceAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="IdentityId" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSettingFk" Type="Int32" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Setting" Relationship="webzyEmailModel.FK_EmailServiceAccount_EmailSetting" FromRole="ServiceAccount" ToRole="Setting" />
+        </EntityType>
+        <EntityType Name="ServiceLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailAddress" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSettingId" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" Nullable="false" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Action" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="ProcessName" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Remarks" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SMTP" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="POP3" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="IMAP" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="SaveToServer" Type="Boolean" Nullable="false" />
+          <Property Name="POPPort" Type="Int32" />
+          <Property Name="POPsecurity" Type="Boolean" />
+          <Property Name="SMTPPort" Type="Int32" />
+          <Property Name="SMTPsecurity" Type="Boolean" />
+          <Property Name="IMAPPort" Type="Int32" />
+          <Property Name="IMAPsecurity" Type="Boolean" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DefaultServer" Type="Boolean" />
+          <Property Name="TimerCycle" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ReceivedEmails" Relationship="webzyEmailModel.FK_EmailReceived_EmailSetting" FromRole="Setting" ToRole="ReceivedEmail" />
+          <NavigationProperty Name="ServiceAccounts" Relationship="webzyEmailModel.FK_EmailServiceAccount_EmailSetting" FromRole="Setting" ToRole="ServiceAccount" />
+        </EntityType>
+        <EntityType Name="EmailReceivedView">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UID" />
+            <PropertyRef Name="EmailSentTime" />
+            <PropertyRef Name="FromAddress" />
+            <PropertyRef Name="AttachedFile" />
+            <PropertyRef Name="Readed" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="ModifiedOn" />
+            <PropertyRef Name="IdentityId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UID" Type="String" Nullable="false" MaxLength="5000" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSentTime" Type="DateTime" Nullable="false" />
+          <Property Name="FromAddress" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="ToAddress" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="CCAddress" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="Subject" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="EmailContent" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="EmailSeverity" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="AttachedFile" Type="Boolean" Nullable="false" />
+          <Property Name="Readed" Type="Boolean" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" />
+          <Property Name="IdentityId" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_EmailReceived_EmailSetting">
+          <End Role="Setting" Type="webzyEmailModel.Setting" Multiplicity="1" />
+          <End Role="ReceivedEmail" Type="webzyEmailModel.ReceivedEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReceivedEmail">
+              <PropertyRef Name="EmailAccountFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailServiceAccount_EmailSetting">
+          <End Role="Setting" Type="webzyEmailModel.Setting" Multiplicity="1" />
+          <End Role="ServiceAccount" Type="webzyEmailModel.ServiceAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Setting">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceAccount">
+              <PropertyRef Name="EmailSettingFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AttachmentFile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="EmailReceivedFk" />
+          <Property Type="String" Name="UID" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FileName" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FileLocation" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedOn" Nullable="false" />
+          <NavigationProperty Name="ReceivedEmail" Relationship="webzyEmailModel.FK_EmailAttachments_EmailReceived" FromRole="AttachmentFile" ToRole="ReceivedEmail" />
+        </EntityType>
+        <Association Name="FK_EmailAttachments_EmailReceived">
+          <End Type="webzyEmailModel.ReceivedEmail" Role="ReceivedEmail" Multiplicity="0..1" />
+          <End Type="webzyEmailModel.AttachmentFile" Role="AttachmentFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceivedEmail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AttachmentFile">
+              <PropertyRef Name="EmailReceivedFk" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="webzyEmailModelStoreContainer" CdmEntityContainer="webzyEmailEntities">
+          <EntitySetMapping Name="EmailLogs"><EntityTypeMapping TypeName="webzyEmailModel.EmailLog"><MappingFragment StoreEntitySet="EmailLog">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+            <ScalarProperty Name="SenderAddress" ColumnName="SenderAddress" />
+            <ScalarProperty Name="ReceiverName" ColumnName="ReceiverName" />
+            <ScalarProperty Name="ReceiverAddress" ColumnName="ReceiverAddress" />
+            <ScalarProperty Name="CCAddress" ColumnName="CCAddress" />
+            <ScalarProperty Name="Subject" ColumnName="Subject" />
+            <ScalarProperty Name="EmailContent" ColumnName="EmailContent" />
+            <ScalarProperty Name="EmailFormat" ColumnName="EmailFormat" />
+            <ScalarProperty Name="EmailSeverity" ColumnName="EmailSeverity" />
+            <ScalarProperty Name="EmailSent" ColumnName="EmailSent" />
+            <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ReceivedEmails"><EntityTypeMapping TypeName="webzyEmailModel.ReceivedEmail"><MappingFragment StoreEntitySet="ReceivedEmail">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="UID" ColumnName="UID" />
+            <ScalarProperty Name="EmailSentTime" ColumnName="EmailSentTime" />
+            <ScalarProperty Name="EmailAccountFk" ColumnName="EmailAccountFk" />
+            <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+            <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+            <ScalarProperty Name="CCAddress" ColumnName="CCAddress" />
+            <ScalarProperty Name="Subject" ColumnName="Subject" />
+            <ScalarProperty Name="EmailContent" ColumnName="EmailContent" />
+            <ScalarProperty Name="EmailFormat" ColumnName="EmailFormat" />
+            <ScalarProperty Name="EmailSeverity" ColumnName="EmailSeverity" />
+            <ScalarProperty Name="AttachedFile" ColumnName="AttachedFile" />
+            <ScalarProperty Name="Readed" ColumnName="Readed" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ServiceAccounts"><EntityTypeMapping TypeName="webzyEmailModel.ServiceAccount"><MappingFragment StoreEntitySet="ServiceAccount">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="UserName" ColumnName="UserName" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+            <ScalarProperty Name="EmailSettingFk" ColumnName="EmailSettingFk" />
+            <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ServiceLogs"><EntityTypeMapping TypeName="webzyEmailModel.ServiceLog"><MappingFragment StoreEntitySet="ServiceLog">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+            <ScalarProperty Name="EmailSettingId" ColumnName="EmailSettingId" />
+            <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+            <ScalarProperty Name="Action" ColumnName="Action" />
+            <ScalarProperty Name="ProcessName" ColumnName="ProcessName" />
+            <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Settings"><EntityTypeMapping TypeName="webzyEmailModel.Setting"><MappingFragment StoreEntitySet="Setting">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="SMTP" ColumnName="SMTP" />
+            <ScalarProperty Name="POP3" ColumnName="POP3" />
+            <ScalarProperty Name="IMAP" ColumnName="IMAP" />
+            <ScalarProperty Name="SaveToServer" ColumnName="SaveToServer" />
+            <ScalarProperty Name="POPPort" ColumnName="POPPort" />
+            <ScalarProperty Name="POPsecurity" ColumnName="POPsecurity" />
+            <ScalarProperty Name="SMTPPort" ColumnName="SMTPPort" />
+            <ScalarProperty Name="SMTPsecurity" ColumnName="SMTPsecurity" />
+            <ScalarProperty Name="IMAPPort" ColumnName="IMAPPort" />
+            <ScalarProperty Name="IMAPsecurity" ColumnName="IMAPsecurity" />
+            <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+            <ScalarProperty Name="UserId" ColumnName="UserId" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="DefaultServer" ColumnName="DefaultServer" />
+            <ScalarProperty Name="TimerCycle" ColumnName="TimerCycle" />
+            <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="EmailReceivedViews"><EntityTypeMapping TypeName="webzyEmailModel.EmailReceivedView"><MappingFragment StoreEntitySet="EmailReceivedView">
+            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="UID" ColumnName="UID" />
+            <ScalarProperty Name="EmailSentTime" ColumnName="EmailSentTime" />
+            <ScalarProperty Name="FromAddress" ColumnName="FromAddress" />
+            <ScalarProperty Name="ToAddress" ColumnName="ToAddress" />
+            <ScalarProperty Name="CCAddress" ColumnName="CCAddress" />
+            <ScalarProperty Name="Subject" ColumnName="Subject" />
+            <ScalarProperty Name="EmailContent" ColumnName="EmailContent" />
+            <ScalarProperty Name="EmailSeverity" ColumnName="EmailSeverity" />
+            <ScalarProperty Name="AttachedFile" ColumnName="AttachedFile" />
+            <ScalarProperty Name="Readed" ColumnName="Readed" />
+            <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+            <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+            <ScalarProperty Name="IdentityId" ColumnName="IdentityId" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="AttachmentFiles">
+            <EntityTypeMapping TypeName="webzyEmailModel.AttachmentFile">
+              <MappingFragment StoreEntitySet="AttachmentFile">
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="FileLocation" ColumnName="FileLocation" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="EmailReceivedFk" ColumnName="EmailReceivedFk" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="webzyEmail" ZoomLevel="66">
+        <EntityTypeShape EntityType="webzyEmailModel.EmailLog" Width="1.5" PointX="5.75" PointY="5.75" Height="3.7109993489583317" IsExpanded="true" />
+        <EntityTypeShape EntityType="webzyEmailModel.ReceivedEmail" Width="1.5" PointX="3" PointY="1.25" Height="4.2879036458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="webzyEmailModel.ServiceAccount" Width="1.5" PointX="3" PointY="6.25" Height="2.7494921875000005" IsExpanded="true" />
+        <EntityTypeShape EntityType="webzyEmailModel.ServiceLog" Width="1.5" PointX="7.75" PointY="0.75" Height="2.7494921874999996" IsExpanded="true" />
+        <EntityTypeShape EntityType="webzyEmailModel.Setting" Width="1.5" PointX="0.75" PointY="2.5" Height="5.2494108072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="webzyEmailModel.EmailReceivedView" Width="1.5" PointX="7.75" PointY="4.75" Height="3.7109993489583317" IsExpanded="true" />
+        <AssociationConnector Association="webzyEmailModel.FK_EmailReceived_EmailSetting" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.0189518229166667" />
+          <ConnectorPoint PointX="3" PointY="4.0189518229166667" />
+        </AssociationConnector>
+        <AssociationConnector Association="webzyEmailModel.FK_EmailServiceAccount_EmailSetting" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="6.9997054036458337" />
+          <ConnectorPoint PointX="3" PointY="6.9997054036458337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="webzyEmailModel.AttachmentFile" Width="1.5" PointX="5.25" PointY="2.125" Height="2.5571907552083317" />
+        <AssociationConnector Association="webzyEmailModel.FK_EmailAttachments_EmailReceived" >
+          <ConnectorPoint PointX="4.5" PointY="3.4035953776041659" />
+          <ConnectorPoint PointX="5.25" PointY="3.4035953776041659" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

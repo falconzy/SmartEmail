@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://email.webservice.web-zy.com" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EmailService" targetNamespace="http://email.webservice.web-zy.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://email.webservice.web-zy.com/Imports">
+      <xsd:import schemaLocation="http://localhost:62744/EmailService.svc?xsd=xsd0" namespace="http://email.webservice.web-zy.com" />
+      <xsd:import schemaLocation="http://localhost:62744/EmailService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IEmailService_SendEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendEmail" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_SendEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_ReceivedEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceivedEmail" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_ReceivedEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceivedEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_ReadEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReadEmail" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_ReadEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReadEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_RetrievedEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:RetrievedEmail" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_RetrievedEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RetrievedEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_RetrievedAttchement_InputMessage">
+    <wsdl:part name="parameters" element="tns:RetrievedAttchement" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_RetrievedAttchement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RetrievedAttchementResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_checkFirstUnReadUID_InputMessage">
+    <wsdl:part name="parameters" element="tns:checkFirstUnReadUID" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_checkFirstUnReadUID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:checkFirstUnReadUIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_checkLastUID_InputMessage">
+    <wsdl:part name="parameters" element="tns:checkLastUID" />
+  </wsdl:message>
+  <wsdl:message name="IEmailService_checkLastUID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:checkLastUIDResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IEmailService">
+    <wsdl:operation name="SendEmail">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/SendEmail" message="tns:IEmailService_SendEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/SendEmailResponse" message="tns:IEmailService_SendEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceivedEmail">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/ReceivedEmail" message="tns:IEmailService_ReceivedEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/ReceivedEmailResponse" message="tns:IEmailService_ReceivedEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadEmail">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/ReadEmail" message="tns:IEmailService_ReadEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/ReadEmailResponse" message="tns:IEmailService_ReadEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrievedEmail">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/RetrievedEmail" message="tns:IEmailService_RetrievedEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/RetrievedEmailResponse" message="tns:IEmailService_RetrievedEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrievedAttchement">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/RetrievedAttchement" message="tns:IEmailService_RetrievedAttchement_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/RetrievedAttchementResponse" message="tns:IEmailService_RetrievedAttchement_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="checkFirstUnReadUID">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/checkFirstUnReadUID" message="tns:IEmailService_checkFirstUnReadUID_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/checkFirstUnReadUIDResponse" message="tns:IEmailService_checkFirstUnReadUID_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="checkLastUID">
+      <wsdl:input wsaw:Action="http://email.webservice.web-zy.com/IEmailService/checkLastUID" message="tns:IEmailService_checkLastUID_InputMessage" />
+      <wsdl:output wsaw:Action="http://email.webservice.web-zy.com/IEmailService/checkLastUIDResponse" message="tns:IEmailService_checkLastUID_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IEmailService" type="tns:IEmailService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SendEmail">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/SendEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceivedEmail">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/ReceivedEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadEmail">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/ReadEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrievedEmail">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/RetrievedEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrievedAttchement">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/RetrievedAttchement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkFirstUnReadUID">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/checkFirstUnReadUID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkLastUID">
+      <soap:operation soapAction="http://email.webservice.web-zy.com/IEmailService/checkLastUID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EmailService">
+    <wsdl:port name="BasicHttpBinding_IEmailService" binding="tns:BasicHttpBinding_IEmailService">
+      <soap:address location="http://localhost:62744/EmailService.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

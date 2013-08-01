@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://email.webservice.web-zy.com" elementFormDefault="qualified" targetNamespace="http://email.webservice.web-zy.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="SendEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Email" nillable="true" type="tns:SmartEmail" />
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="SmartEmail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CCAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmailFormat" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmailSeverity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceiverAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ReceiverName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SenderAddress" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SenderName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SmartEmail" nillable="true" type="tns:SmartEmail" />
+  <xs:element name="SendEmailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendEmailResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceivedEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="StartUID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="EndUID" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReceivedEmailResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReadEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="UID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Readed" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReadEmailResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrievedEmail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="StartUID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="EndUID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="size" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrievedEmailResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RetrievedEmailResult" nillable="true" type="tns:ArrayOfReceivedMail" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfReceivedMail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReceivedMail" nillable="true" type="tns:ReceivedMail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfReceivedMail" nillable="true" type="tns:ArrayOfReceivedMail" />
+  <xs:complexType name="ReceivedMail">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:SmartEmail">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AttachedFileId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="EmailSentTime" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="UID" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ReceivedMail" nillable="true" type="tns:ReceivedMail" />
+  <xs:element name="RetrievedAttchement">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="AttcheFileId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrievedAttchementResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="RetrievedAttchementResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkFirstUnReadUID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkFirstUnReadUIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="checkFirstUnReadUIDResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkLastUID">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdentityId" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="checkLastUIDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="checkLastUIDResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
